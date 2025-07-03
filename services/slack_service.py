@@ -21,7 +21,6 @@ def send_dm_message(user_id, text, blocks=None):
         logger.error(f"Error sending DM to {user_id}: {e}")
 
 def invite_user_to_channel(user_id, channel_id):
-    """Invites a user to a specified channel."""
     try:
         slack_client.conversations_invite(
             channel=channel_id,
@@ -35,5 +34,17 @@ def invite_user_to_channel(user_id, channel_id):
             logger.error(f"Bot not in channel {channel_id}. Please invite the bot to this channel.")
         else:
             logger.error(f"Error inviting user {user_id} to channel {channel_id}: {e}")
+
+def send_ephemeral_message(channel_id, user_id, text):
+    """Sends a temporary message visible only to the specified user in a channel."""
+    try:
+        slack_client.chat_postEphemeral(
+            channel=channel_id,
+            user=user_id,
+            text=text
+        )
+        logger.info(f"Ephemeral message sent to {user_id} in {channel_id}")
+    except SlackApiError as e:
+        logger.error(f"Error sending ephemeral message to {user_id} in {channel_id}: {e}")
 
 # Add other Slack API interaction functions here if needed
