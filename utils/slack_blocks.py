@@ -1,4 +1,4 @@
-from config import Config # To access CHANNEL_IDS if needed for dynamic block generation
+from config import Config
 
 def get_welcome_and_cohort_blocks(user_id, channel_ids_map):
     """Returns Slack Block Kit for the welcome and cohort selection message."""
@@ -97,26 +97,29 @@ def get_notification_preference_blocks():
         }
     ]
 
-def get_final_onboarding_blocks():
-    """Returns Slack Block Kit for the concluding messages of the onboarding."""
+# New functions for each of the final messages
+def get_channel_browser_blocks():
     return [
         {
             "type": "section",
             "text": {
                 "type": "mrkdwn",
-                "text": "*3️⃣ Explore more channels:* "
+                "text": "*3️⃣ Explore more channels:*\n"
                         "Find and join channels that interest you: <slack://channel_browser>"
             }
         },
         {
             "type": "divider"
-        },
+        }
+    ]
+
+def get_profile_editing_blocks():
+    return [
         {
             "type": "section",
             "text": {
                 "type": "mrkdwn",
-                # Corrected direct link to edit profile
-                "text": "*4️⃣ Complete your profile:* "
+                "text": "*4️⃣ Complete your profile:*\n"
                         "Help your peers get to know you! <slack://profile>"
             }
         },
@@ -131,12 +134,16 @@ def get_final_onboarding_blocks():
         },
         {
             "type": "divider"
-        },
+        }
+    ]
+
+def get_introduction_blocks():
+    return [
         {
             "type": "section",
             "text": {
                 "type": "mrkdwn",
-                "text": "*5️⃣ Introduce yourself!* "
+                f"text": "*5️⃣ Introduce yourself!* 👋\n"
                         f"Pop into the <#{Config.CHANNEL_IDS['mess_intros']}> channel and say hello to the community!"
             }
         },
