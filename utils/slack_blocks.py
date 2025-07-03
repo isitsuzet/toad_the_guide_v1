@@ -2,13 +2,13 @@ from config import Config # To access CHANNEL_IDS if needed for dynamic block ge
 
 def get_welcome_and_cohort_blocks(user_id, channel_ids_map):
     """Returns Slack Block Kit for the welcome and cohort selection message."""
-    # You can customize these blocks significantly
     return [
         {
             "type": "section",
             "text": {
                 "type": "mrkdwn",
-                "text": f"🎉 Welcome to the community, <@{user_id}>! I'm your friendly guide, Toad! I'm here to help you get started."
+                "text": f"🎉 *Welcome to the community, <@{user_id}>!* 🎉\n"
+                        "I'm your friendly guide, Toad. I'm here to help you get started and connected."
             }
         },
         {
@@ -18,7 +18,7 @@ def get_welcome_and_cohort_blocks(user_id, channel_ids_map):
             "type": "section",
             "text": {
                 "type": "mrkdwn",
-                "text": "To help us get you connected with the right people, please tell us which year you started studying:"
+                "text": "*1️⃣ Tell us about your study year:*"
             }
         },
         {
@@ -62,9 +62,12 @@ def get_welcome_and_cohort_blocks(user_id, channel_ids_map):
             "elements": [
                 {
                     "type": "mrkdwn",
-                    "text": "*(Alternatively, you can react with: :one: for 2021, :two: for 2022, :three: for 2023, :four: for 2024, :five: for 2025)*"
+                    "text": "*(Alternatively, react with: :one: for 2021, :two: for 2022, :three: for 2023, :four: for 2024, :five: for 2025)*"
                 }
             ]
+        },
+        {
+            "type": "divider"
         }
     ]
 
@@ -75,7 +78,7 @@ def get_notification_preference_blocks():
             "type": "section",
             "text": {
                 "type": "mrkdwn",
-                "text": "How would you like to be notified in the channels you join? Please react to indicate your preference:"
+                "text": "*2️⃣ How would you like to be notified?*"
             }
         },
         {
@@ -83,8 +86,68 @@ def get_notification_preference_blocks():
             "elements": [
                 {
                     "type": "mrkdwn",
-                    "text": ":white_check_mark: for ALL, :bell: for ONLY IMPORTANT, :no_bell: for NO NOTIFICATION"
+                    "text": ":white_check_mark: for *ALL* notifications\n"
+                            ":bell: for *ONLY IMPORTANT* announcements\n"
+                            ":no_bell: for *NO NOTIFICATIONS* (you'll mute channels manually)"
                 }
             ]
+        },
+        {
+            "type": "divider"
+        }
+    ]
+
+def get_final_onboarding_blocks():
+    """Returns Slack Block Kit for the concluding messages of the onboarding."""
+    return [
+        {
+            "type": "section",
+            "text": {
+                "type": "mrkdwn",
+                "text": "*3️⃣ Explore more channels:* "
+                        "Find and join channels that interest you: <slack://channel_browser>"
+            }
+        },
+        {
+            "type": "divider"
+        },
+        {
+            "type": "section",
+            "text": {
+                "type": "mrkdwn",
+                # Corrected direct link to edit profile
+                "text": "*4️⃣ Complete your profile:* "
+                        "Help your peers get to know you! <slack://profile>"
+            }
+        },
+        {
+            "type": "context",
+            "elements": [
+                {
+                    "type": "mrkdwn",
+                    "text": "*(For more details on editing your profile, check the Slack docs: <https://slack.com/help/articles/204092246-Edit-your-profile>)*"
+                }
+            ]
+        },
+        {
+            "type": "divider"
+        },
+        {
+            "type": "section",
+            "text": {
+                "type": "mrkdwn",
+                "text": "*5️⃣ Introduce yourself!* "
+                        f"Pop into the <#{Config.CHANNEL_IDS['mess_intros']}> channel and say hello to the community!"
+            }
+        },
+        {
+            "type": "divider"
+        },
+        {
+            "type": "section",
+            "text": {
+                "type": "mrkdwn",
+                "text": "That's it for now! Enjoy your time in the community! 🥳"
+            }
         }
     ]
