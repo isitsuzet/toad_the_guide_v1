@@ -63,6 +63,21 @@ def slack_interactive():
     
     return "", 200 # Acknowledge receipt
 
+@app.route("/slack/command", methods=["POST"])
+def slack_command():
+    # Slack slash commands use application/x-www-form-urlencoded, not JSON
+    command_data = request.form
+    logger.info(f"Received slash command: {command_data['command']} from {command_data['user_id']}")
+    
+    if command_data['command'] == "/init_introduction":
+        command_handlers.handle_init_introduction_command(command_data)
+        # Slash commands need an immediate response within 3 seconds,
+        # otherwise Slack shows "response_url took too long".
+        # We can send a quick acknowledgement.
+        return jsonify({"text": "Sending introduction guide to your DMs..."})
+    
+    return jsonify({"text": "Unknown command"}), 400
+
 if __name__ == "__main__":
     logger.info("Starting Flask app locally...")
     app.run(debug=True, host="0.0.0.0", port=Config.PORT)
