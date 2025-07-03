@@ -46,17 +46,21 @@ def handle_notification_choice(user_id, preference):
     # Send the final onboarding messages after notification choice
     send_final_onboarding_messages(user_id)
 
-def send_final_onboarding_messages(user_id):
-    """Sends the concluding messages of the onboarding."""
-    slack_service.send_dm_message(user_id, "Browse and join more channels here: <slack://channel_browser>")
-    slack_service.send_dm_message(user_id, "To help your peers get to know you, please take a moment to fill out your Slack profile: <https://slack.com/help/articles/204092246-Edit-your-profile>")
-    
-    introduction_channel_id = Config.CHANNEL_IDS["mess_intros"]
-    slack_service.send_dm_message(user_id, f"Lastly, we'd love for you to give a short introduction about yourself in the <#{introduction_channel_id}> channel! Say hello and tell us a bit about you.")
+def send_final_onboarding_messages_step_by_step(user_id):
+    """Sends the concluding messages of the onboarding, one by one."""
+    # Message 1: Channel browser
+    slack_service.send_dm_message(user_id, "Explore Channels", slack_blocks.get_channel_browser_blocks())
 
-# --- New Function for Manual Introduction Guide Trigger ---
+    # Message 2: Profile editing
+    slack_service.send_dm_message(user_id, "Update Your Profile", slack_blocks.get_profile_editing_blocks())
+
+    # Message 3: Self-introduction
+    slack_service.send_dm_message(user_id, "Say Hello!", slack_blocks.get_introduction_blocks())
+
+
 def send_introduction_guide(user_id):
-    """Sends the introduction guide messages to a user."""
+    """Sends the introduction guide messages to a user (reusing final onboarding messages)."""
     logger.info(f"Sending introduction guide to {user_id}")
-    slack_service.send_dm_message(user_id, "Here's your introduction guide:")
-    send_final_onboarding_messages(user_id) # Reuse the existing messages
+    # Call the new step-by-step function
+    slack_service.send_dm_message(user_id, "Here's your introduction guide:") # Optional intro message
+    send_final_onboarding_messages_step_by_step(user_id)
