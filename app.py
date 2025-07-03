@@ -10,7 +10,7 @@ if os.environ.get("FLASK_ENV") != "production": # A simple check to not load in 
     load_dotenv()
 
 from config import Config
-from handlers import event_handlers, interaction_handlers
+from handlers import event_handlers, interaction_handlers, command_handlers
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
