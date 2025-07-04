@@ -46,15 +46,41 @@ def handle_semester_selection(payload):
     else:
         slack_service.send_dm_message(user_id, "Invalid semester selection.")
     
-    # After semester selection (or manual choice), proceed to social channels
-    user_onboarding.proceed_to_social_channels(user_id)
+    # After semester selection, proceed to Events/Jobs channels
+    user_onboarding.proceed_to_events_jobs_channels(user_id) 
+
 
 def handle_manual_channels_choice(payload):
     user_id = payload["user"]["id"]
     logger.info(f"User {user_id} chose to manually select channels.")
     slack_service.send_dm_message(user_id, "No problem! You can browse and join channels manually anytime using the channel browser (link in your introduction guide).")
     
-    # After manual choice, proceed to social channels
+    # After manual choice, proceed to Events/Jobs channels
+    user_onboarding.proceed_to_events_jobs_channels(user_id)
+
+def handle_join_events_channel(payload):
+    user_id = payload["user"]["id"]
+    events_channel_id = Config.CHANNEL_IDS["events"]
+    logger.info(f"User {user_id} chose to join events channel {events_channel_id}.")
+    slack_service.invite_user_to_channel(user_id, events_channel_id)
+    slack_service.send_dm_message(user_id, f"You've been invited to the events channel: <#{events_channel_id}>.")
+    # After joining, proceed to social channels
+    user_onboarding.proceed_to_social_channels(user_id)
+
+def handle_join_jobs_internships_channel(payload):
+    user_id = payload["user"]["id"]
+    jobs_channel_id = Config.CHANNEL_IDS["jobs_internships"]
+    logger.info(f"User {user_id} chose to join jobs/internships channel {jobs_channel_id}.")
+    slack_service.invite_user_to_channel(user_id, jobs_channel_id)
+    slack_service.send_dm_message(user_id, f"You've been invited to the jobs and internships channel: <#{jobs_channel_id}>.")
+    # After joining, proceed to social channels
+    user_onboarding.proceed_to_social_channels(user_id)
+
+def handle_skip_events_jobs_channels(payload):
+    user_id = payload["user"]["id"]
+    logger.info(f"User {user_id} chose to skip events/jobs channels.")
+    slack_service.send_dm_message(user_id, "Okay, skipping events and jobs channels for now. You can always browse for them later!")
+    # After skipping, proceed to social channels
     user_onboarding.proceed_to_social_channels(user_id)
 
 def handle_join_social_channel(payload):
