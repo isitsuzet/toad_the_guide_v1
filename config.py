@@ -4,6 +4,7 @@ class Config:
     SLACK_BOT_TOKEN = os.environ.get("SLACK_BOT_TOKEN")
     SLACK_SIGNING_SECRET = os.environ.get("SLACK_SIGNING_SECRET")
     PORT = int(os.environ.get("PORT", 8080))
+    SLACK_TEAM_ID = os.environ.get("SLACK_TEAM_ID")
 
     # --- Channel IDs (retrieved from environment variables) ---
     CHANNEL_IDS = {
@@ -68,5 +69,13 @@ class Config:
         "bell": "IMPORTANT",
         "no_bell": "NONE"
     }
+
+
+    # Validate that essential config values are set (optional but good practice)
+    if SLACK_BOT_TOKEN is None or SLACK_SIGNING_SECRET is None or SLACK_TEAM_ID is None:
+        raise ValueError("Missing essential Slack API environment variables (SLACK_BOT_TOKEN, SLACK_SIGNING_SECRET, SLACK_TEAM_ID).")
+    for key, value in CHANNEL_IDS.items():
+        if value is None:
+            raise ValueError(f"Missing required environment variable for channel ID: {key.upper()}. Please set it.")
 
 
