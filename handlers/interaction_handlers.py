@@ -82,8 +82,7 @@ def handle_join_module_channel(payload):
     user_id = payload["user"]["id"]
     module_channel_id = payload["actions"][0]["value"] # The value is already the channel ID
     # FIX: Access the button text directly
-    module_name = payload["actions"][0]["text"] # <--- CHANGED THIS LINE
-                                                # It's just a string, no need for ['plain_text']
+    module_name = payload["actions"][0]["text"] 
     logger.info(f"User {user_id} chose to join module channel '{module_name}' ({module_channel_id}).")
     
     slack_service.invite_user_to_channel(user_id, module_channel_id)
