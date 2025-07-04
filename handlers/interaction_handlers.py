@@ -69,13 +69,13 @@ def handle_join_social_channel(payload):
 def handle_home_tab_start_onboarding(payload):
     user_id = payload["user"]["id"]
     logger.info(f"User {user_id} clicked 'Start Onboarding Guide' on Home tab.")
-    slack_service.send_ephemeral_message(payload["channel"]["id"], user_id, "Starting your introduction guide in your Direct Messages! Please check your DMs with Toad.")
+    # REMOVE: slack_service.send_ephemeral_message(payload["channel"]["id"], user_id, "Starting your introduction guide in your Direct Messages! Please check your DMs with Toad.")
     user_onboarding.start_onboarding_flow(user_id)
 
 def handle_home_tab_customize_channels(payload):
     user_id = payload["user"]["id"]
     logger.info(f"User {user_id} clicked 'Customize Channels' on Home tab.")
-    slack_service.send_ephemeral_message(payload["channel"]["id"], user_id, "Starting channel customization in your Direct Messages! Please check your DMs with Toad.")
+    # REMOVE: slack_service.send_ephemeral_message(payload["channel"]["id"], user_id, "Starting channel customization in your Direct Messages! Please check your DMs with Toad.")
     user_onboarding.start_customization_flow(user_id)
 
 def handle_join_module_channel(payload):
