@@ -189,3 +189,65 @@ def get_post_onboarding_customize_blocks():
         }
     ]
 
+def get_mandatory_classes_blocks():
+    return [
+        {
+            "type": "section",
+            "text": {
+                "type": "mrkdwn",
+                "text": "*Do you want to join the channels for the mandatory classes of your semester?*"
+            }
+        },
+        {
+            "type": "context",
+            "elements": [
+                {
+                    "type": "mrkdwn",
+                    "text": "If yes, please choose your current semester below:"
+                }
+            ]
+        },
+        {
+            "type": "actions",
+            "elements": [
+                {
+                    "type": "button",
+                    "text": { "type": "plain_text", "text": "Semester 1" },
+                    "value": "1",
+                    "action_id": "select_semester_1"
+                },
+                {
+                    "type": "button",
+                    "text": { "type": "plain_text", "text": "Semester 2" },
+                    "value": "2",
+                    "action_id": "select_semester_2"
+                },
+                {
+                    "type": "button",
+                    "text": { "type": "plain_text", "text": "Semester 3" },
+                    "value": "3",
+                    "action_id": "select_semester_3"
+                },
+                {
+                    "type": "button",
+                    "text": { "type": "plain_text", "text": "Semester 4" },
+                    "value": "4",
+                    "action_id": "select_semester_4"
+                }
+            ]
+        },
+        {
+            "type": "actions",
+            "elements": [
+                {
+                    "type": "button",
+                    "text": { "type": "plain_text", "text": "I want to manually choose channels" },
+                    "value": "manual",
+                    "action_id": "manual_channels_choice" # New action ID for manual selection
+                }
+            ]
+        },
+        {
+            "type": "divider"
+        }
+    ]
