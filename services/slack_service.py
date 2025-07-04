@@ -11,10 +11,15 @@ slack_client = WebClient(token=Config.SLACK_BOT_TOKEN)
 
 def send_dm_message(user_id, text, blocks=None):
     """Sends a direct message to a user."""
+    # Ensure text is not empty if blocks are present.
+    # Slack recommends always providing a text fallback for blocks.
+    if blocks and not text:
+        text = "Message from your bot (please update your client to see full content)" # Provide a fallback text
+    
     try:
         slack_client.chat_postMessage(
             channel=user_id,
-            text=text,
+            text=text, # Always send text
             blocks=blocks
         )
         logger.info(f"DM sent to {user_id}")
@@ -52,6 +57,7 @@ def send_ephemeral_message(channel_id, user_id, text):
 def send_delayed_message(user_id, text_message, delay_seconds, blocks=None):
     """Sends a message to a user after a specified delay."""
     time.sleep(delay_seconds)
+    # Ensure the text_message is passed correctly to send_dm_message
     send_dm_message(user_id, text_message, blocks)
     logger.info(f"Delayed message sent to {user_id} after {delay_seconds} seconds.")
 
