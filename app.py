@@ -63,6 +63,12 @@ def slack_interactive():
         interaction_handlers.handle_customize_start(payload)
     elif action_id.startswith("select_semester_"):
         interaction_handlers.handle_semester_selection(payload)
+    elif action_id == "join_events_channel":
+        interaction_handlers.handle_join_events_channel(payload)
+    elif action_id == "join_jobs_internships_channel":
+        interaction_handlers.handle_join_jobs_internships_channel(payload)
+    elif action_id == "skip_events_jobs_channels":
+        interaction_handlers.handle_skip_events_jobs_channels(payload)
     elif action_id == "join_social_channel":
         interaction_handlers.handle_join_social_channel(payload)
     elif action_id == "manual_channels_choice":
