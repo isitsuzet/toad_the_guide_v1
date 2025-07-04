@@ -31,3 +31,14 @@ def handle_reaction_added(event):
         user_onboarding.handle_notification_choice(user_id, preference)
     else:
         logger.info(f"Ignored unknown reaction '{reaction}'")
+
+def handle_app_home_opened(event):
+    user_id = event["user"]
+    logger.info(f"App Home opened by user: {user_id}")
+    
+    # Get the Home tab view
+    home_view = home_tab_view.get_home_tab_view(user_id)
+    
+    # Publish the view to the user's Home tab
+    slack_service.publish_home_tab(user_id, home_view)
+
