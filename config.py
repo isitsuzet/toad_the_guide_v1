@@ -13,9 +13,12 @@ class Config:
         "cohort_2023": os.environ.get("CHANNEL_ID_2023"),
         "cohort_2024": os.environ.get("CHANNEL_ID_2024"),
         "cohort_2025": os.environ.get("CHANNEL_ID_2025"),
+        
         "official_announcements": os.environ.get("CHANNEL_ID_ANNOUNCEMENTS"),
         "mess_intros": os.environ.get("CHANNEL_ID_INTRODUCTIONS"),
         "social_channel": os.environ.get("CHANNEL_ID_SOCIAL"),
+        "events": os.environ.get("CHANNEL_ID_EVENTS"),
+        "jobs_internships": os.environ.get("CHANNEL_ID_JOBSANDINTERNSHIPS"),
         
         "S1_Entrepreneurship": os.environ.get("CHANNEL_ID_S1_ENTREPRENEURSHIP"),
         "S1_Micro": os.environ.get("CHANNEL_ID_S1_MICRO"),
