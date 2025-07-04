@@ -44,7 +44,7 @@ def handle_notification_choice(user_id, preference):
         )
     
     # Send the final onboarding messages after notification choice
-    send_final_onboarding_messages(user_id)
+    send_final_onboarding_messages_step_by_step(user_id)
 
 def send_final_onboarding_messages_step_by_step(user_id):
     """Sends the concluding messages of the onboarding, one by one."""
