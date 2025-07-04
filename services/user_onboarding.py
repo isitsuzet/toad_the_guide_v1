@@ -1,5 +1,7 @@
 import logging
 import threading
+import time
+
 
 from services import slack_service
 from utils import slack_blocks
@@ -98,13 +100,17 @@ def start_customization_flow(user_id):
     mandatory_class_blocks = slack_blocks.get_mandatory_classes_blocks()
     slack_service.send_dm_message(user_id, "Choose your mandatory classes:", mandatory_class_blocks)
 
+def proceed_to_events_jobs_channels(user_id):
+    """Sends the events/jobs channel prompt."""
+    events_jobs_blocks = slack_blocks.get_events_jobs_channels_blocks()
+    slack_service.send_dm_message(user_id, "More Opportunities:", events_jobs_blocks)
+
+
 def proceed_to_social_channels(user_id):
     """Proceeds to the social channels prompt."""
     social_blocks = slack_blocks.get_social_channels_blocks()
     slack_service.send_dm_message(user_id, "Connect Socially:", social_blocks)
     
-    # --- Trigger the delayed module prompt after this ---
-    # Start the delayed message in a separate thread to not block the main Flask app response
+    # Trigger the delayed module prompt after this
     threading.Thread(target=slack_service.send_delayed_message, args=(user_id, "If you want to join channels for modules you have this semester, please type `/set_my_classes`", 5)).start()
-
 
