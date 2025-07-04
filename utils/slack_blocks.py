@@ -357,3 +357,65 @@ def get_module_selection_outro_blocks():
             }
         }
     ]
+
+
+def get_events_jobs_channels_blocks():
+    return [
+        {
+            "type": "section",
+            "text": {
+                "type": "mrkdwn",
+                "text": "*Stay updated on opportunities!*"
+            }
+        },
+        {
+            "type": "section",
+            "text": {
+                "type": "mrkdwn",
+                "text": "Would you like to join channels for events and career opportunities?"
+            },
+            "accessory": {
+                "type": "button",
+                "text": {
+                    "type": "plain_text",
+                    "text": "Join Events Channel"
+                },
+                "value": Config.CHANNEL_IDS["events"],
+                "action_id": "join_events_channel"
+            }
+        },
+        {
+            "type": "section",
+            "text": {
+                "type": "mrkdwn",
+                "text": " " # Empty text for spacing, or you can merge above
+            },
+            "accessory": {
+                "type": "button",
+                "text": {
+                    "type": "plain_text",
+                    "text": "Join Jobs & Internships"
+                },
+                "value": Config.CHANNEL_IDS["jobs_internships"],
+                "action_id": "join_jobs_internships_channel"
+            }
+        },
+        {
+            "type": "actions", # You can put a "skip" button here if they don't want either
+            "elements": [
+                {
+                    "type": "button",
+                    "text": {
+                        "type": "plain_text",
+                        "text": "No, thanks"
+                    },
+                    "value": "skip_events_jobs",
+                    "action_id": "skip_events_jobs_channels"
+                }
+            ]
+        },
+        {
+            "type": "divider"
+        }
+    ]
+
