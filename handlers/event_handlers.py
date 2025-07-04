@@ -35,10 +35,13 @@ def handle_reaction_added(event):
 def handle_app_home_opened(event):
     user_id = event["user"]
     logger.info(f"App Home opened by user: {user_id}")
-    
-    # Get the Home tab view
+
+    # Add this log to confirm the view generation is attempted
+    logger.info(f"Attempting to generate Home tab view for user {user_id}")
     home_view = home_tab_view.get_home_tab_view(user_id)
     
-    # Publish the view to the user's Home tab
+    # Add this log to confirm the publish call is attempted
+    logger.info(f"Attempting to publish Home tab for user {user_id}")
     slack_service.publish_home_tab(user_id, home_view)
+    logger.info(f"publish_home_tab function call completed for user {user_id}") # Confirm call finishes
 
