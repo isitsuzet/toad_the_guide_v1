@@ -419,3 +419,41 @@ def get_events_jobs_channels_blocks():
         }
     ]
 
+def get_continue_to_modules_blocks():
+    return [
+        {
+            "type": "section",
+            "text": {
+                "type": "mrkdwn",
+                "text": "✅ *You're all set for now with these initial choices!* ✅\n\n"
+                        "When you're ready, click the button below to explore joining channels for your specific academic modules."
+            }
+        },
+        {
+            "type": "actions",
+            "elements": [
+                {
+                    "type": "button",
+                    "text": {
+                        "type": "plain_text",
+                        "text": "Start Module Selection"
+                    },
+                    "style": "primary",
+                    "value": "start_module_selection",
+                    "action_id": "start_module_selection" # New action ID
+                }
+            ]
+        },
+        {
+            "type": "context",
+            "elements": [
+                {
+                    "type": "mrkdwn",
+                    "text": "*(You can also trigger module selection anytime by typing `/set_my_classes`)*"
+                }
+            ]
+        },
+        {
+            "type": "divider"
+        }
+    ]
