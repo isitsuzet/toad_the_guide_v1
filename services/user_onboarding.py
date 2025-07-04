@@ -89,3 +89,20 @@ def send_introduction_guide(user_id):
     # Call the new step-by-step function
     slack_service.send_dm_message(user_id, "Here's your introduction guide:") # Optional intro message
     send_final_onboarding_messages_step_by_step(user_id)
+
+def start_customization_flow(user_id):
+    """Starts the customization flow after the basic onboarding."""
+    logger.info(f"Starting customization flow for {user_id}")
+    mandatory_class_blocks = slack_blocks.get_mandatory_classes_blocks()
+    slack_service.send_dm_message(user_id, "Choose your mandatory classes:", mandatory_class_blocks)
+
+def proceed_to_social_channels(user_id):
+    """Proceeds to the social channels prompt."""
+    social_blocks = slack_blocks.get_social_channels_blocks()
+    slack_service.send_dm_message(user_id, "Connect Socially:", social_blocks)
+    
+    # --- Trigger the delayed module prompt after this ---
+    # Start the delayed message in a separate thread to not block the main Flask app response
+    threading.Thread(target=slack_service.send_delayed_message, args=(user_id, "If you want to join channels for modules you have this semester, please type `/set_my_classes`", 5)).start()
+
+
