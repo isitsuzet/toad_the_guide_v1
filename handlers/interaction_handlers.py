@@ -56,3 +56,12 @@ def handle_manual_channels_choice(payload):
     
     # After manual choice, proceed to social channels
     user_onboarding.proceed_to_social_channels(user_id)
+
+def handle_join_social_channel(payload):
+    user_id = payload["user"]["id"]
+    social_channel_id = Config.CHANNEL_IDS["social_channel"]
+    logger.info(f"User {user_id} chose to join social channel {social_channel_id}.")
+    slack_service.invite_user_to_channel(user_id, social_channel_id)
+    slack_service.send_dm_message(user_id, f"You've been invited to the social channel: <#{social_channel_id}>. Have fun!")
+    # The delayed module prompt is now handled by proceed_to_social_channels
+
