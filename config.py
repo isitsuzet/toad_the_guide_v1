@@ -16,6 +16,7 @@ class Config:
         "official_announcements": os.environ.get("CHANNEL_ID_ANNOUNCEMENTS"),
         "mess_intros": os.environ.get("CHANNEL_ID_INTRODUCTIONS"),
         "social_channel": os.environ.get("CHANNEL_ID_SOCIAL"),
+        
         "S1_Entrepreneurship": os.environ.get("CHANNEL_ID_S1_ENTREPRENEURSHIP"),
         "S1_Micro": os.environ.get("CHANNEL_ID_S1_MICRO"),
         "S1_EconBusinessNature": os.environ.get("CHANNEL_ID_S1_ECONBUSINESSNATURE"),
@@ -54,6 +55,36 @@ class Config:
         "3": ["S3_ManagingDS", "S3_EconDesign", "S3_DigitalTransformation", "S3_FinanceAccounting", "S3_DataScience"],
         "4": ["S4_Ethics", "S4_PublicPolicy", "S4_DigitalTransformationChangeMgt"]
     }
+
+    MODULES_BY_SEMESTER = {
+        "Semester 1": {
+            "Entrepreneurship": "S1_Entrepreneurship",
+            "Micro": "S1_Micro",
+            "Econ and Business in Nature": "S1_EconBusinessNature",
+            "Intro Statistics": "S1_IntroStatistics",
+            "Econ of Climate Change": "S1_EconClimateChange"
+        },
+        "Semester 2": {
+            "Intro Psychology": "S2_IntroPsychology",
+            "Macro": "S2_Macro",
+            "Demography and Social Inequality": "S2_DemographySocialInequality",
+            "Econ of Inequality": "S2_EconInequality",
+            "Data Analysis & Econometrics": "S2_DataAnalysisEconometrics"
+        },
+        "Semester 3": {
+            "Managing D&S": "S3_ManagingDS",
+            "Econ Design": "S3_EconDesign",
+            "Digital Transformation": "S3_DigitalTransformation",
+            "Finance and Accounting": "S3_FinanceAccounting",
+            "Data Science": "S3_DataScience"
+        },
+        "Semester 4": {
+            "Ethics": "S4_Ethics",
+            "Public Policy": "S4_PublicPolicy",
+            "Digital Transformation and Change Mgt": "S4_DigitalTransformationChangeMgt"
+        }
+    }
+
     
     # Emoji mappings for reactions (these are static, so they can stay here)
     EMOJI_COHORTS = {
