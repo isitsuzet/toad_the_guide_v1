@@ -1,4 +1,5 @@
 import logging
+import time
 from slack_sdk import WebClient
 from slack_sdk.errors import SlackApiError
 from config import Config
@@ -46,5 +47,12 @@ def send_ephemeral_message(channel_id, user_id, text):
         logger.info(f"Ephemeral message sent to {user_id} in {channel_id}")
     except SlackApiError as e:
         logger.error(f"Error sending ephemeral message to {user_id} in {channel_id}: {e}")
+
+
+def send_delayed_message(user_id, text_message, delay_seconds, blocks=None):
+    """Sends a message to a user after a specified delay."""
+    time.sleep(delay_seconds)
+    send_dm_message(user_id, text_message, blocks)
+    logger.info(f"Delayed message sent to {user_id} after {delay_seconds} seconds.")
 
 # Add other Slack API interaction functions here if needed
