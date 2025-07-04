@@ -30,7 +30,7 @@ def verify_slack_signature():
 
 @app.route("/slack/events", methods=["POST"])
 def slack_events():
-    """Handle Slack Events API requests (team_join, reaction_added)."""
+    """Handle Slack Events API requests (team_join, reaction_added, app_home_opened)."""
     payload = request.json
     
     # Handle URL verification challenge
@@ -45,6 +45,8 @@ def slack_events():
         event_handlers.handle_team_join(payload["event"])
     elif event_type == "reaction_added":
         event_handlers.handle_reaction_added(payload["event"])
+    elif event_type == "app_home_opened": # <--- THIS LINE IS CRITICAL
+        event_handlers.handle_app_home_opened(payload["event"]) # <--- AND THIS LINE
     
     return "", 200 # Acknowledge receipt
 
