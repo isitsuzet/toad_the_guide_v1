@@ -158,3 +158,34 @@ def get_introduction_blocks():
             }
         }
     ]
+
+def get_post_onboarding_customize_blocks():
+    return [
+        {
+            "type": "section",
+            "text": {
+                "type": "mrkdwn",
+                "text": "🎉 *You've now set up the basic structure of your Slack workspace!* 🎉\n\n"
+                        "If you want to customize your experience further, please choose the 'Customize' button below."
+            }
+        },
+        {
+            "type": "actions",
+            "elements": [
+                {
+                    "type": "button",
+                    "text": {
+                        "type": "plain_text",
+                        "text": "Customize"
+                    },
+                    "style": "primary", # Make it stand out
+                    "value": "customize_start",
+                    "action_id": "customize_start"
+                }
+            ]
+        },
+        {
+            "type": "divider"
+        }
+    ]
+
