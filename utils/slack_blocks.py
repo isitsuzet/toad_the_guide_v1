@@ -280,3 +280,80 @@ def get_social_channels_blocks():
             "type": "divider"
         }
     ]
+
+def get_module_selection_blocks(semester_name, modules_dict):
+    """
+    Generates Block Kit for module selection for a given semester.
+    Each module will be a button.
+    """
+    blocks = [
+        {
+            "type": "section",
+            "text": {
+                "type": "mrkdwn",
+                f"text": f"*📖 {semester_name} Modules:*"
+            }
+        },
+        {
+            "type": "actions",
+            "block_id": f"modules_semester_{semester_name.lower().replace(' ', '_')}", # Unique block ID
+            "elements": []
+        }
+    ]
+
+    # Add buttons for each module in the semester
+    for module_name, channel_key in modules_dict.items():
+        channel_id = Config.CHANNEL_IDS.get(channel_key)
+        if channel_id:
+            blocks[1]["elements"].append(
+                {
+                    "type": "button",
+                    "text": {
+                        "type": "plain_text",
+                        "text": module_name
+                    },
+                    "value": channel_id, # Button value will be the channel ID
+                    "action_id": f"join_module_{channel_key.lower()}" # Unique action ID
+                }
+            )
+        else:
+            # Log a warning if a channel ID is missing for a module
+            print(f"WARNING: Missing channel ID for module '{module_name}' ({channel_key}) in Config.CHANNEL_IDS.")
+
+    # Add a divider if there are actual module buttons
+    if blocks[1]["elements"]:
+        blocks.append({"type": "divider"})
+    else:
+        # If no modules are found (e.g., all channel IDs are None), remove the actions block
+        blocks[1]["text"] = {"type": "mrkdwn", "text": "No modules available for this semester yet."}
+        blocks.pop(1) # Remove the empty actions block
+
+    return blocks
+
+def get_module_selection_intro_blocks():
+    """Initial message for /set_my_classes command."""
+    return [
+        {
+            "type": "section",
+            "text": {
+                "type": "mrkdwn",
+                "text": "📚 *Select your modules:* 📚\n"
+                        "Click the buttons below to join the channels for the modules you are taking this semester."
+            }
+        },
+        {
+            "type": "divider"
+        }
+    ]
+
+def get_module_selection_outro_blocks():
+    """Final message for /set_my_classes command."""
+    return [
+        {
+            "type": "section",
+            "text": {
+                "type": "mrkdwn",
+                "text": "That's it for module selection! If you need to join more later, just type `/set_my_classes` again."
+            }
+        }
+    ]
