@@ -54,11 +54,11 @@ def send_final_onboarding_messages_step_by_step(user_id):
     """Sends the concluding messages of the onboarding, one by one."""
     # Message 1: Channel browser
     slack_service.send_dm_message(user_id, "Explore Channels", slack_blocks.get_channel_browser_blocks())
-    time.sleep(1)
+  
     
     # Message 2: Profile editing
     slack_service.send_dm_message(user_id, "Update Your Profile", slack_blocks.get_profile_editing_blocks())
-    time.sleep(1)
+    
 
     # Message 3: Self-introduction
     slack_service.send_dm_message(user_id, "Say Hello!", slack_blocks.get_introduction_blocks())
@@ -77,17 +77,6 @@ def start_customization_flow(user_id):
     # 1. Mandatory Classes Prompt
     mandatory_class_blocks = slack_blocks.get_mandatory_classes_blocks()
     slack_service.send_dm_message(user_id, "Choose your mandatory classes:", mandatory_class_blocks)
-
-# We will use this later for the delayed message
-def _send_delayed_module_prompt(user_id):
-    """Helper function to send the module prompt after a delay."""
-    time.sleep(5) # The actual 5-second delay
-    slack_service.send_dm_message(
-        user_id,
-        "If you want to join channels for modules you have this semester, please type `/set_my_classes`"
-    )
-    logger.info(f"Delayed module prompt sent to {user_id}")
-
 
 def send_introduction_guide(user_id):
     """Sends the introduction guide messages to a user (reusing final onboarding messages)."""
@@ -113,6 +102,28 @@ def proceed_to_social_channels(user_id):
     social_blocks = slack_blocks.get_social_channels_blocks()
     slack_service.send_dm_message(user_id, "Connect Socially:", social_blocks)
     
-    # Trigger the delayed module prompt after this
-    threading.Thread(target=slack_service.send_delayed_message, args=(user_id, "If you want to join channels for modules you have this semester, please type `/set_my_classes`", 5)).start()
+    continue_blocks = slack_blocks.get_continue_to_modules_blocks()
+    slack_service.send_dm_message(user_id, "Next Step: Modules", continue_blocks)
+
+def start_module_selection_flow(user_id):
+    """Triggers the module selection process, usually from a button click or command."""
+    logger.info(f"Starting module selection flow for {user_id}")
+    # Reuse the logic from command_handlers.py directly
+    intro_blocks = slack_blocks.get_module_selection_intro_blocks()
+    slack_service.send_dm_message(user_id, "📚 Module Selection 📚", intro_blocks)
+
+    for semester_name, modules_dict in Config.MODULES_BY_SEMESTER.items():
+        if modules_dict:
+            module_blocks = slack_blocks.get_module_selection_blocks(semester_name, modules_dict)
+            slack_service.send_dm_message(user_id, f"Modules for {semester_name}", module_blocks)
+            # You can keep a *very small* delay between semester blocks for visual pacing,
+            # but it should be very short (e.g., 0.1 seconds) and not critical.
+            # Avoid it if you want absolute minimal blocking.
+            # If you keep it, make sure time is imported.
+            # If you want to use it, uncomment `import time` at the top of this file
+            # time.sleep(0.1) # Minor visual pause
+    
+    outro_blocks = slack_blocks.get_module_selection_outro_blocks()
+    slack_service.send_dm_message(user_id, "Module Selection Complete!", outro_blocks)
+
 
