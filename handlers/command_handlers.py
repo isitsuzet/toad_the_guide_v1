@@ -34,15 +34,16 @@ def handle_set_my_classes_command(command_data):
     # Send initial message for module selection
     intro_blocks = slack_blocks.get_module_selection_intro_blocks()
     # Provide a 'text' fallback
-    slack_service.send_dm_message(user_id, "Module Selection Guide", intro_blocks) # Added text
+    slack_service.send_dm_message(user_id, "📚 Module Selection 📚", intro_blocks)
 
     # Send modules for each semester
     for semester_name, modules_dict in Config.MODULES_BY_SEMESTER.items():
-        if modules_dict: # Only send if there are modules for this semester
+        if modules_dict:
             module_blocks = slack_blocks.get_module_selection_blocks(semester_name, modules_dict)
-            # Provide a 'text' fallback
-            slack_service.send_dm_message(user_id, f"Modules for {semester_name}", module_blocks) # Added text
-            slack_service.send_delayed_message(user_id, "", 0.5) # This is fine as it's just a delay message
+            # Using the semester name as text makes sense here.
+            slack_service.send_dm_message(user_id, f"Modules for {semester_name}", module_blocks)
+            
+            slack_service.send_delayed_message(user_id, "Loading next semester...", 0.5)
 
     # Send final message
     outro_blocks = slack_blocks.get_module_selection_outro_blocks()
