@@ -1,6 +1,7 @@
 import logging
 from services import user_onboarding
-from services import slack_service # Might be useful for sending ephemeral messages
+from services import slack_service 
+from utils import slack_blocks
 
 logger = logging.getLogger(__name__)
 
