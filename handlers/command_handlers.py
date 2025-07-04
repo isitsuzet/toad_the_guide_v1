@@ -2,6 +2,7 @@ import logging
 from services import user_onboarding
 from services import slack_service 
 from utils import slack_blocks
+from config import Config
 
 logger = logging.getLogger(__name__)
 
