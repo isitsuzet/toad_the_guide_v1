@@ -56,28 +56,15 @@ def slack_interactive():
     action_id = payload["actions"][0]["action_id"]
     logger.info(f"Received interactive payload, action_id: {action_id}")
 
-    # Delegate to appropriate handler based on action_id or block_id
-    if action_id.startswith("select_cohort_"):
-        interaction_handlers.handle_cohort_selection(payload)
-    # Add more conditions for other interactive actions if needed
-    
-    return "", 200 # Acknowledge receipt
-
-@app.route("/slack/interactive", methods=["POST"])
-def slack_interactive():
-    payload = json.loads(request.form["payload"])
-    action_id = payload["actions"][0]["action_id"]
-    logger.info(f"Received interactive payload, action_id: {action_id}")
-
     if action_id.startswith("select_cohort_"):
         interaction_handlers.handle_cohort_selection(payload)
     # --- NEW: Route customize button ---
     elif action_id == "customize_start":
         interaction_handlers.handle_customize_start(payload)
-    # --- NEW: Route semester selection buttons (will be added soon) ---
+    # --- NEW: Route semester selection buttons ---
     elif action_id.startswith("select_semester_"):
         interaction_handlers.handle_semester_selection(payload)
-    # --- NEW: Route social channel button (will be added soon) ---
+    # --- NEW: Route social channel button ---
     elif action_id == "join_social_channel":
         interaction_handlers.handle_join_social_channel(payload)
     elif action_id == "manual_channels_choice":
