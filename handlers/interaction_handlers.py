@@ -65,3 +65,17 @@ def handle_join_social_channel(payload):
     slack_service.send_dm_message(user_id, f"You've been invited to the social channel: <#{social_channel_id}>. Have fun!")
     # The delayed module prompt is now handled by proceed_to_social_channels
 
+
+def handle_home_tab_start_onboarding(payload):
+    user_id = payload["user"]["id"]
+    logger.info(f"User {user_id} clicked 'Start Onboarding Guide' on Home tab.")
+    slack_service.send_ephemeral_message(payload["channel"]["id"], user_id, "Starting your introduction guide in your Direct Messages! Please check your DMs with Toad.")
+    user_onboarding.start_onboarding_flow(user_id)
+
+def handle_home_tab_customize_channels(payload):
+    user_id = payload["user"]["id"]
+    logger.info(f"User {user_id} clicked 'Customize Channels' on Home tab.")
+    slack_service.send_ephemeral_message(payload["channel"]["id"], user_id, "Starting channel customization in your Direct Messages! Please check your DMs with Toad.")
+    user_onboarding.start_customization_flow(user_id)
+
+
