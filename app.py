@@ -79,6 +79,8 @@ def slack_interactive():
         interaction_handlers.handle_home_tab_customize_channels(payload)
     elif action_id.startswith("join_module_"):
         interaction_handlers.handle_join_module_channel(payload)
+    elif action_id == "start_module_selection":
+        interaction_handlers.handle_start_module_selection(payload)
     
     return "", 200
 
