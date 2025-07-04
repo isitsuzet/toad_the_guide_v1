@@ -54,9 +54,11 @@ def send_final_onboarding_messages_step_by_step(user_id):
     """Sends the concluding messages of the onboarding, one by one."""
     # Message 1: Channel browser
     slack_service.send_dm_message(user_id, "Explore Channels", slack_blocks.get_channel_browser_blocks())
-
+    time.sleep(1)
+    
     # Message 2: Profile editing
     slack_service.send_dm_message(user_id, "Update Your Profile", slack_blocks.get_profile_editing_blocks())
+    time.sleep(1)
 
     # Message 3: Self-introduction
     slack_service.send_dm_message(user_id, "Say Hello!", slack_blocks.get_introduction_blocks())
