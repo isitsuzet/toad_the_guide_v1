@@ -14,4 +14,8 @@ def handle_cohort_selection(payload):
     # The value of the button is already the channel ID, so no need for further lookup
     user_onboarding.handle_cohort_choice(user_id, value)
 
-# Add other interactive handlers here if you introduce more buttons/selects
+def handle_customize_start(payload):
+    """Handles the 'Customize' button click."""
+    user_id = payload["user"]["id"]
+    logger.info(f"User {user_id} clicked 'Customize'.")
+    user_onboarding.start_customization_flow(user_id)
