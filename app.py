@@ -50,40 +50,39 @@ def slack_events():
 
 @app.route("/slack/interactive", methods=["POST"])
 def slack_interactive():
-    """Handle Slack Interactive API requests (button clicks)."""
     payload = json.loads(request.form["payload"])
-    
     action_id = payload["actions"][0]["action_id"]
     logger.info(f"Received interactive payload, action_id: {action_id}")
 
     if action_id.startswith("select_cohort_"):
         interaction_handlers.handle_cohort_selection(payload)
-    # --- NEW: Route customize button ---
     elif action_id == "customize_start":
         interaction_handlers.handle_customize_start(payload)
-    # --- NEW: Route semester selection buttons ---
     elif action_id.startswith("select_semester_"):
         interaction_handlers.handle_semester_selection(payload)
-    # --- NEW: Route social channel button ---
     elif action_id == "join_social_channel":
         interaction_handlers.handle_join_social_channel(payload)
     elif action_id == "manual_channels_choice":
         interaction_handlers.handle_manual_channels_choice(payload)
+    # --- NEW: Home Tab Button Actions ---
+    elif action_id == "start_onboarding_from_home":
+        interaction_handlers.handle_home_tab_start_onboarding(payload)
+    elif action_id == "start_customize_from_home":
+        interaction_handlers.handle_home_tab_customize_channels(payload)
     
     return "", 200
 
 @app.route("/slack/command", methods=["POST"])
 def slack_command():
-    # Slack slash commands use application/x-www-form-urlencoded, not JSON
     command_data = request.form
     logger.info(f"Received slash command: {command_data['command']} from {command_data['user_id']}")
     
     if command_data['command'] == "/init_introduction":
         command_handlers.handle_init_introduction_command(command_data)
-        # Slash commands need an immediate response within 3 seconds,
-        # otherwise Slack shows "response_url took too long".
-        # We can send a quick acknowledgement.
-        return jsonify({"text": "Sending introduction guide to your DMs..."})
+        return jsonify({"text": "Starting your introduction guide in your DMs..."})
+    elif command_data['command'] == "/set_my_classes":
+        command_handlers.handle_set_my_classes_command(command_data)
+        return jsonify({"text": "Starting module selection in your DMs!"})
     
     return jsonify({"text": "Unknown command"}), 400
 
