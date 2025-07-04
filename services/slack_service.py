@@ -55,4 +55,13 @@ def send_delayed_message(user_id, text_message, delay_seconds, blocks=None):
     send_dm_message(user_id, text_message, blocks)
     logger.info(f"Delayed message sent to {user_id} after {delay_seconds} seconds.")
 
-# Add other Slack API interaction functions here if needed
+def publish_home_tab(user_id, view_blocks):
+    """Publishes a Block Kit view to a user's App Home tab."""
+    try:
+        slack_client.views_publish(
+            user_id=user_id,
+            view=view_blocks
+        )
+        logger.info(f"Home tab published for user {user_id}")
+    except SlackApiError as e:
+        logger.error(f"Error publishing Home tab for user {user_id}: {e}")
