@@ -2,7 +2,6 @@ import logging
 from services import user_onboarding
 from config import Config
 from services import slack_service
-import threading
 
 logger = logging.getLogger(__name__)
 
@@ -115,3 +114,8 @@ def handle_join_module_channel(payload):
     slack_service.send_dm_message(user_id, f"You've been invited to the module channel: <#{module_channel_id}> (`{module_name}`).")
 
 
+def handle_start_module_selection(payload):
+    user_id = payload["user"]["id"]
+    logger.info(f"User {user_id} clicked 'Start Module Selection' button.")
+    user_onboarding.start_module_selection_flow(user_id)
+    # No ephemeral message needed here, as the flow starts in DMs.
