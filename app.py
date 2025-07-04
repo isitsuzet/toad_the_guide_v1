@@ -4,6 +4,7 @@ import logging
 from flask import Flask, request, jsonify
 from slack_sdk.signature import SignatureVerifier
 from dotenv import load_dotenv
+from werkzeug.serving import run_simple 
 
 # For local development, load .env file
 if os.environ.get("FLASK_ENV") != "production": # A simple check to not load in prod
@@ -66,11 +67,12 @@ def slack_interactive():
         interaction_handlers.handle_join_social_channel(payload)
     elif action_id == "manual_channels_choice":
         interaction_handlers.handle_manual_channels_choice(payload)
-    # --- NEW: Home Tab Button Actions ---
     elif action_id == "start_onboarding_from_home":
         interaction_handlers.handle_home_tab_start_onboarding(payload)
     elif action_id == "start_customize_from_home":
         interaction_handlers.handle_home_tab_customize_channels(payload)
+    elif action_id.startswith("join_module_"):
+        interaction_handlers.handle_join_module_channel(payload)
     
     return "", 200
 
