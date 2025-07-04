@@ -81,15 +81,12 @@ def handle_home_tab_customize_channels(payload):
 def handle_join_module_channel(payload):
     user_id = payload["user"]["id"]
     module_channel_id = payload["actions"][0]["value"] # The value is already the channel ID
-    module_name = payload["actions"][0]["text"]["plain_text"] # Get the button text (module name)
-
+    # FIX: Access the button text directly
+    module_name = payload["actions"][0]["text"] # <--- CHANGED THIS LINE
+                                                # It's just a string, no need for ['plain_text']
     logger.info(f"User {user_id} chose to join module channel '{module_name}' ({module_channel_id}).")
     
     slack_service.invite_user_to_channel(user_id, module_channel_id)
     slack_service.send_dm_message(user_id, f"You've been invited to the module channel: <#{module_channel_id}> (`{module_name}`).")
-
-    # Acknowledge the button click by updating the message (optional, but good practice)
-    # This replaces the button with a confirmation that it was clicked.
-    # It's a bit more advanced, for now, we'll just send a DM.
 
 
