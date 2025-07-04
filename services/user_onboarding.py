@@ -57,6 +57,31 @@ def send_final_onboarding_messages_step_by_step(user_id):
     # Message 3: Self-introduction
     slack_service.send_dm_message(user_id, "Say Hello!", slack_blocks.get_introduction_blocks())
 
+    # Message 4: Send the post-onboarding customization prompt
+
+    customize_blocks = slack_blocks.get_post_onboarding_customize_blocks()
+    slack_service.send_dm_message(user_id, "Ready for more?", customize_blocks)
+
+
+# Function to handle the customization flow 
+def start_customization_flow(user_id):
+    """Starts the customization flow after the basic onboarding."""
+    logger.info(f"Starting customization flow for {user_id}")
+    
+    # 1. Mandatory Classes Prompt
+    mandatory_class_blocks = slack_blocks.get_mandatory_classes_blocks()
+    slack_service.send_dm_message(user_id, "Choose your mandatory classes:", mandatory_class_blocks)
+
+# We will use this later for the delayed message
+def _send_delayed_module_prompt(user_id):
+    """Helper function to send the module prompt after a delay."""
+    time.sleep(5) # The actual 5-second delay
+    slack_service.send_dm_message(
+        user_id,
+        "If you want to join channels for modules you have this semester, please type `/set_my_classes`"
+    )
+    logger.info(f"Delayed module prompt sent to {user_id}")
+
 
 def send_introduction_guide(user_id):
     """Sends the introduction guide messages to a user (reusing final onboarding messages)."""
