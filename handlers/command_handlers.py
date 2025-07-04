@@ -29,12 +29,25 @@ def handle_set_my_classes_command(command_data):
     user_id = command_data["user_id"]
     logger.info(f"Handling /set_my_classes command for user: {user_id}")
 
-    # For now, just send a placeholder message.
-    # The full implementation with semester/module buttons will come next.
-    slack_service.send_dm_message(user_id, "Alright! Let's get you set up with your module channels. This feature is coming soon!")
+    # Send initial message for module selection
+    intro_blocks = slack_blocks.get_module_selection_intro_blocks()
+    slack_service.send_dm_message(user_id, "Module Selection", intro_blocks)
+
+    # Send modules for each semester
+    for semester_name, modules_dict in Config.MODULES_BY_SEMESTER.items():
+        if modules_dict: # Only send if there are modules for this semester
+            module_blocks = slack_blocks.get_module_selection_blocks(semester_name, modules_dict)
+            slack_service.send_dm_message(user_id, f"Modules for {semester_name}", module_blocks)
+            # Add a small delay between semester blocks for better UX
+            slack_service.send_delayed_message(user_id, "", 0.5) # 0.5 seconds delay without text
+
+    # Send final message
+    outro_blocks = slack_blocks.get_module_selection_outro_blocks()
+    slack_service.send_dm_message(user_id, "Module Selection Complete!", outro_blocks)
+
     # Send a quick ephemeral response to avoid Slack timeout
     slack_service.send_ephemeral_message(
         channel_id=command_data["channel_id"],
         user_id=user_id,
-        text="Starting module selection in your DMs!"
+        text="Module selection options have been sent to your DMs!"
     )
