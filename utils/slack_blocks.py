@@ -251,3 +251,32 @@ def get_mandatory_classes_blocks():
             "type": "divider"
         }
     ]
+
+
+def get_social_channels_blocks():
+    return [
+        {
+            "type": "section",
+            "text": {
+                "type": "mrkdwn",
+                "text": "*This space is a great opportunity to get in touch with your peers.*"
+            }
+        },
+        {
+            "type": "section",
+            "text": {
+                "type": "mrkdwn",
+                f"text": "If you want to join the social channels, please select 'Social' below. "
+                         f"In <#{Config.CHANNEL_IDS['social_channel']}>, you can plan casual meetups and have academic unrelated talks with your peers."
+            },
+            "accessory": {
+                "type": "button",
+                "text": { "type": "plain_text", "text": "Join Social Channel" },
+                "value": "social_channel_join", # Value doesn't matter much for a single channel
+                "action_id": "join_social_channel"
+            }
+        },
+        {
+            "type": "divider"
+        }
+    ]
