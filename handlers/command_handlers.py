@@ -25,33 +25,16 @@ def handle_init_introduction_command(command_data):
         text="Starting your introduction guide in your Direct Messages! Please check your DMs with Toad."
     )
 
-
 def handle_set_my_classes_command(command_data):
     """Handles the /set_my_classes slash command."""
     user_id = command_data["user_id"]
     logger.info(f"Handling /set_my_classes command for user: {user_id}")
 
-    # Send initial message for module selection
-    intro_blocks = slack_blocks.get_module_selection_intro_blocks()
-    # Provide a 'text' fallback
-    slack_service.send_dm_message(user_id, "📚 Module Selection 📚", intro_blocks)
-
-    # Send modules for each semester
-    for semester_name, modules_dict in Config.MODULES_BY_SEMESTER.items():
-        if modules_dict:
-            module_blocks = slack_blocks.get_module_selection_blocks(semester_name, modules_dict)
-            # Using the semester name as text makes sense here.
-            slack_service.send_dm_message(user_id, f"Modules for {semester_name}", module_blocks)
-            
-            slack_service.send_delayed_message(user_id, "Loading next semester...", 0.5)
-
-    # Send final message
-    outro_blocks = slack_blocks.get_module_selection_outro_blocks()
-    # Provide a 'text' fallback
-    slack_service.send_dm_message(user_id, "Module Selection Complete!", outro_blocks) # Added text
+    user_onboarding.start_module_selection_flow(user_id) # Call the centralized function
 
     slack_service.send_ephemeral_message(
         channel_id=command_data["channel_id"],
         user_id=user_id,
         text="Module selection options have been sent to your DMs!"
     )
+
